@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tier List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    .tier-list {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tier {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      transition: height 0.3s ease;
+    }
+
+    .tier[data-tier="S"] {
+      background-color: #fa2020;
+    }
+
+    .tier[data-tier="A"] {
+      background-color: #ffcf4d;
+    }
+
+    .tier[data-tier="B"] {
+      background-color: #fffb00;
+    }
+
+    .tier[data-tier="C"] {
+      background-color: #71fa37;
+    }
+
+    .tier[data-tier="D"] {
+      background-color: #1ff0ff;
+    }
+
+    .tier[data-tier="F"] {
+      background-color: #bf34ed;
+    }
+
+    .tier[data-tier="NA"] {
+      background-color: #d3d3d3;
+    }
+
+    .tier-label {
+      width: 50px;
+      text-align: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .tier-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      flex: 1;
+      min-height: 80px;
+      transition: height 0.3s ease;
+    }
+
+    .item {
+      width: 80px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      cursor: grab;
+      user-select: none;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .item img {
+      max-width: 100%;
+      max-height: 60%;
+      border-radius: 4px;
+    }
+
+    .item div {
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .item.dragging {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="tier-list">
+    <div class="tier" data-tier="S">
+      <div class="tier-label">S</div>
+      <div class="tier-items"></div>
+    </div>
+    <div class="tier" data-tier="A">
+      <div class="tier-label">A</div>
+      <div class="tier-items"></div>
+    </div>
+    <div class="tier" data-tier="B">
+      <div class="tier-label">B</div>
+      <div class="tier-items"></div>
+    </div>
+    <div class="tier" data-tier="C">
+      <div class="tier-label">C</div>
+      <div class="tier-items"></div>
+    </div>
+    <div class="tier" data-tier="D">
+      <div class="tier-label">D</div>
+      <div class="tier-items"></div>
+    </div>
+    <div class="tier" data-tier="F">
+      <div class="tier-label">F</div>
+      <div class="tier-items"></div>
+    </div>
+    <div class="tier" data-tier="NA">
+      <div class="tier-label">NA</div>
+      <div class="tier-items"></div>
+    </div>
+  </div>
+
+  <script>
+    const items = ["Pawn", "Knight", "Bishop", "Rook", "Queen", "Grasshopper", "Cannon", "Archer", "Soldier", "Querquisite", "Angel", "Samurai", "Ship", "Sheriff", "Mercenary", "Bull", "Trebuchet", "Clocktower", "Centurion", "Nightrider", "Archbishop", "Bastion"];
+    const tierList = document.querySelector(".tier-list");
+    const createItemElement = (name) => {
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const img = document.createElement("img");
+      img.src = `${name.replace(/\s+/g, '_')}.png`;
+      img.alt = name;
+
+      const label = document.createElement("div");
+      label.textContent = name;
+
+      item.appendChild(img);
+      item.appendChild(label);
+      item.draggable = true;
+      return item;
+    };
+
+    // Populate initial items in the "NA" tier
+    const naTier = tierList.querySelector("[data-tier='NA'] .tier-items");
+    items.forEach((name) => naTier.appendChild(createItemElement(name)));
+
+    // Drag and Drop functionality
+    let draggedItem = null;
+
+    document.addEventListener("dragstart", (e) => {
+      if (e.target.classList.contains("item")) {
+        draggedItem = e.target;
+        e.target.classList.add("dragging");
+      }
+    });
+
+    document.addEventListener("dragend", (e) => {
+      if (e.target.classList.contains("item")) {
+        e.target.classList.remove("dragging");
+        draggedItem = null;
+      }
+    });
+
+    document.querySelectorAll(".tier-items").forEach((tier) => {
+      tier.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+
+      tier.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if (draggedItem) {
+          tier.appendChild(draggedItem);
+          adjustTierHeight(tier);
+        }
+      });
+    });
+
+    function adjustTierHeight(tier) {
+      const items = tier.children.length;
+      const rows = Math.ceil(items / 18); // Assume 8 items fit per row
+      const newHeight = rows * 120; // 120px per row including gaps
+      tier.parentElement.style.height = `${newHeight}px`;
+    }
+  </script>
+</body>
+</html>
