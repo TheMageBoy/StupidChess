@@ -1,0 +1,46 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Oops! All Variants"
+run/main_scene="res://Scenes/Main Menu.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Globals="*res://Code/Globals.gd"
+
+[debug]
+
+shapes/size/resizable=true
+shapes/canvas_textures/default_texture_filter=1
+shapes/lossless_compression/force_png=false
+shapes/autoload_on_startup=false
+
+[display]
+
+window/size/resizable=false
+
+[file_customization]
+
+folder_colors={
+"res://Code/": "blue",
+"res://Graphics/": "red",
+"res://Prefabs/": "purple",
+"res://Scenes/": "green"
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

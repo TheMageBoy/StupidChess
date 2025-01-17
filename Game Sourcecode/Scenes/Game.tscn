@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://boutxm566ra07"]
+
+[ext_resource type="Script" path="res://Code/Game.gd" id="1_codm4"]
+
+[node name="Board" type="Node2D"]
+script = ExtResource("1_codm4")
+
+[node name="Move History" type="ScrollContainer" parent="."]
+offset_left = 926.0
+offset_top = 24.0
+offset_right = 1126.0
+offset_bottom = 224.0
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Split" type="HSplitContainer" parent="Move History"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WhiteList" type="VBoxContainer" parent="Move History/Split"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="White" type="RichTextLabel" parent="Move History/Split/WhiteList"]
+layout_mode = 2
+text = "White"
+fit_content = true
+
+[node name="BlackList" type="VBoxContainer" parent="Move History/Split"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Black" type="RichTextLabel" parent="Move History/Split/BlackList"]
+layout_mode = 2
+text = "Black"
+fit_content = true
+
+[node name="Exit Game" type="Button" parent="."]
+offset_left = 1025.0
+offset_top = 617.0
+offset_right = 1152.0
+offset_bottom = 648.0
+text = "Exit Game"
+
+[node name="Turn Display" type="RichTextLabel" parent="."]
+offset_left = 55.0
+offset_top = 24.0
+offset_right = 255.0
+offset_bottom = 74.0
+theme_override_font_sizes/normal_font_size = 25
+text = "White's Turn"
+fit_content = true
+
+[connection signal="pressed" from="Exit Game" to="." method="_back_to_main"]
