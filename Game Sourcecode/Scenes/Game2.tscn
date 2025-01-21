@@ -206,6 +206,7 @@ size_flags_vertical = 3
 bbcode_enabled = true
 text = "[center][img=50]Graphics/Pieces/Pawn.png[/img]Pawn[/center]
 
+[b]Notation:[/b] None
 [b]Prize Tier:[/b] 0
 
 The Pawn moves 1 step away from its side of the board, or 2 on its first movement. It cannot capture forward, instead it captures diagonally forward.
