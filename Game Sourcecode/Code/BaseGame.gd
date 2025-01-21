@@ -665,7 +665,7 @@ var game_done := false
 func on_capture(piece: Node2D):
 	var prizes = 0
 	var input_list = []
-	var no_prizes := [Globals.Archer, Globals.Angel, Globals.King, Globals.Soldier, Globals.Rookie, Globals.Priest]
+	var no_prizes := [Globals.Archer, Globals.Angel, Globals.King, Globals.Soldier, Globals.Rookie, Globals.Priest, Globals.Crab]
 	var double_prizes := [Globals.Queen, Globals.Archbishop, Globals.Bastion]
 	if piece.piece_type == Globals.King:
 		win = side_turn
