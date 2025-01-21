@@ -64,17 +64,17 @@ const Capture: int = 1
 const Projectile: int = 2 # capture the foe without movement
 const SpecialCapture: int = 3 # kills foe and moves but different spaces
 const Swap: int = 4
-#ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ
+#ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ₁₂₃₄₅₆₇₈
 var PieceWiki: Array = [
 	PieceData.new().create("Pawn", "Pawn", "", 1,"[center][img=50]Graphics/Pieces/Pawn.png[/img]Pawn[/center]\n\n[b]Notation:[/b] None\n[b]Prize Tier:[/b] 0\n\nThe Pawn moves 1 step away from its side of the board, or 2 on its first movement. It cannot capture forward, instead it captures diagonally forward.\n\nIt may capture a pawn to the left or right of it digonally forawrd in its direction if they have just done their first long move. This is called \"en passant\".\n\nPawns promote Queens upon reaching the furthest tile on the other side of the board."),
-	PieceData.new().create("Messenger", "Pawn", "", 1, ""),
-	PieceData.new().create("Guard", "Pawn", "", 1, ""),
-	PieceData.new().create("Innkeeper", "Pawn", "", 1, ""),
-	PieceData.new().create("Doctor", "Pawn", "", 1, ""),
-	PieceData.new().create("Weaver", "Pawn", "", 1, ""),
-	PieceData.new().create("Clerk", "Pawn", "", 1, ""),
-	PieceData.new().create("Blacksmith", "Pawn", "", 1, ""),
-	PieceData.new().create("Farmer", "Pawn", "", 1, ""),
+	PieceData.new().create("Messenger", "Pawn", "₁", 1, ""),
+	PieceData.new().create("Guard", "Pawn", "₂", 1, ""),
+	PieceData.new().create("Innkeeper", "Pawn", "₃", 1, ""),
+	PieceData.new().create("Doctor", "Pawn", "₄", 1, ""),
+	PieceData.new().create("Weaver", "Pawn", "₅", 1, ""),
+	PieceData.new().create("Clerk", "Pawn", "₆", 1, ""),
+	PieceData.new().create("Blacksmith", "Pawn", "₇", 1, ""),
+	PieceData.new().create("Farmer", "Pawn", "₈", 1, ""),
 	PieceData.new().create("Knight", "", "N", 3, "[center][img=50]Graphics/Pieces/Knight.png[/img]Knight[/center]\n\n[b]Notation:[/b] N\n[b]Prize Tier:[/b] 1\n\nThe Knight can move or capture to any tile 2 squares away orthogonally and 1 square perpendicular to that. The knight ignores any pieces inbetween, allowing it to jump over pieces."),
 	PieceData.new().create("Bishop", "", "B", 3, "[center][img=50]Graphics/Pieces/Bishop.png[/img]Bishop[/center]\n\n[b]Notation:[/b] B\n[b]Prize Tier:[/b] 1\n\nThe Bishop can move or capture to any reachable diagonal tile."),
 	PieceData.new().create("Rook", "", "R", 5, "[center][img=50]Graphics/Pieces/Rook.png[/img]Rook[/center]\n\n[b]Notation:[/b] R\n[b]Prize Tier:[/b] 1\n\nThe Rook can move or capture to any reachable orthogonal tile.\n\nCannot Castle."),
@@ -87,7 +87,7 @@ var PieceWiki: Array = [
 	PieceData.new().create("Nightrider", "", "N₂", 6, "[center][img=50]Graphics/Pieces/Nightrider.png[/img]Nightrider[/center]\n\n[b]Notation:[/b] N₂\n[b]Prize Tier:[/b] 1\n\nThe Nightrider can move or capture similarly to a Knight, however can continue to another square with the same L-shape configuration. This continues until there is a piece on its landing tile."),
 	PieceData.new().create("Bull", "", "Bʟ", 5, "[center][img=50]Graphics/Pieces/Bull.png[/img]Bull[/center]\n\n[b]Notation:[/b] Bʟ\n[b]Prize Tier:[/b] 1\n\nThe Bull can move or capture with the combined powers of the Queen and the Knight, however, it can only perform capturing moves. If there are no pieces to capture, it moves like a King."),
 	PieceData.new().create("Archer", "", "ᴀ", 2, "[center][img=50]Graphics/Pieces/Archer.png[/img]Archer[/center]\n\n[b]Notation:[/b] ᴀ\n[b]Prize Tier:[/b] 0\n\nThe Archer can move, but not capture orthogonally 1 space.\n\nIt can Shoot in diamond formation, hitting 2 squres orthogonally or 1 square diagonally away.\n\nArchers promote Bishops upon reaching the furthest tile on the other side of the board."),
-	PieceData.new().create("Bomb", "", "X", 2, "[center][img=50]Graphics/Pieces/Archer.png[/img]Bomb[/center]\n\n[b]Notation:[/b] X\n[b]Prize Tier:[/b] 1\n\nThe Bomb can move like a King. when capturing a piece, it captures all pieces adjacent to its original position, and destroys itself. Destroying allied pieces will not yield prize pieces.\n\nIf it is captured, it does NOT explode."),
+	PieceData.new().create("Bomb", "", "X", 2, "[center][img=50]Graphics/Pieces/Bomb.png[/img]Bomb[/center]\n\n[b]Notation:[/b] X\n[b]Prize Tier:[/b] 1\n\nThe Bomb can move like a King. when capturing a piece, it captures all pieces adjacent to its original position, and destroys itself. Destroying allied pieces will not yield prize pieces.\n\nIf it is captured, it does NOT explode."),
 	PieceData.new().create("Trebuchet", "", "T", 3, "[center][img=50]Graphics/Pieces/Trebuchet.png[/img]Trebuchet[/center]\n\n[b]Notation:[/b] T\n[b]Prize Tier:[/b] 1\n\nThe Trebuchet can move, but not capture orthogonally 1 space.\n\nThe Trebuchet grants movement to all adjacent pieces in the direction opposite to their position relative to it, allowing them to move in that direction until they encounter an obstacle. For example, a Pawn to the southwest of the Trebuchet will gain movement along the northeast diagonal."),
 	PieceData.new().create("Samurai", "", "侍", 4, "[center][img=50]Graphics/Pieces/Samurai.png[/img]Samurai[/center]\n\n[b]Notation:[/b] 侍\n[b]Prize Tier:[/b] 1\n\nThe Samurai can move like a Queen with the addition of jumping over any number of pieces but can only capture adjacent pieces."),
 	PieceData.new().create("Ship", "", "S", 2, "[center][img=50]Graphics/Pieces/Ship.png[/img]Ship[/center]\n\n[b]Notation:[/b] S\n[b]Prize Tier:[/b] 1\n\nThe Ship can move diagonally 1 tile, and then any number of spaces up or down depending on if the diagonal was upward or downward."),
@@ -104,7 +104,7 @@ var PieceWiki: Array = [
 	PieceData.new().create("Priest", "", "ʙ", 2, "[center][img=50]Graphics/Pieces/Priest.png[/img]Priest[/center]\n\n[b]Notation:[/b] ʙ\n[b]Prize Tier:[/b] 0\n\nThe Priest moves like a Bishop but only 2 tiles.\n\nPriests promote Bishops upon reaching the furthest tile on the other side of the board."),
 	PieceData.new().create("Rookie", "", "ʀ", 3, "[center][img=50]Graphics/Pieces/Rookie.png[/img]Rookie[/center]\n\n[b]Notation:[/b] ʀ\n[b]Prize Tier:[/b] 0\n\nThe Rookie moves like a Rook but only 2 tiles.\n\nRookies promote Rooks upon reaching the furthest tile on the other side of the board."),
 	PieceData.new().create("Horseman", "", "ɴ", 3, ""),
-	PieceData.new().create("Damsel", "", "ǫ", 2, "[center][img=50]Graphics/Pieces/Damsel.png[/img]Damsel[/center]\n\n[b]Notation:[/b] ǫ\n[b]Prize Tier:[/b] 1\n\nThe Damsel moves like a Queen, but only to tiles where it would be in danger.\n\nDamsels promote Queens upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Damsel", "", "ǫ", 2, "[center][img=50]Graphics/Pieces/Damsel.png[/img]Damsel[/center]\n\n[b]Notation:[/b] ǫ\n[b]Prize Tier:[/b] 0\n\nThe Damsel moves like a Queen, but only to tiles where it would be in danger.\n\nDamsels promote Queens upon reaching the furthest tile on the other side of the board."),
 	PieceData.new().create("Paladin", "", "P", 3, "[center][img=50]Graphics/Pieces/Paladin.png[/img]Paladin[/center]\n\n[b]Notation:[/b] P\n[b]Prize Tier:[/b] 1\n\nThe Knight can move or capture to any tile 2 squares away diagonally and 1 square perpendicular to that.\n\nThis turned out to be exactly like a 3/1 Knight."),
 	PieceData.new().create("Healer", "", "H", 7, "[center][img=50]Graphics/Pieces/Healer.png[/img]Healer[/center]\n\n[b]Notation:[/b] ǫ\n[b]Prize Tier:[/b] 1\n\nThe Healer moves like the Queen but cannot capture, except to tiles where an ally was captured last turn.\n\nWhen moving or capturing to a tile where an ally was captured last turn, re-add that piece to your hand."),
 ]

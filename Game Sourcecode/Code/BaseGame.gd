@@ -665,7 +665,7 @@ var game_done := false
 func on_capture(piece: Node2D):
 	var prizes = 0
 	var input_list = []
-	var no_prizes := [Globals.Archer, Globals.Angel, Globals.King, Globals.Soldier, Globals.Rookie, Globals.Priest, Globals.Crab]
+	var no_prizes := [Globals.Archer, Globals.Angel, Globals.King, Globals.Soldier, Globals.Rookie, Globals.Priest, Globals.Crab, Globals.Damsel]
 	var double_prizes := [Globals.Queen, Globals.Archbishop, Globals.Bastion]
 	if piece.piece_type == Globals.King:
 		win = side_turn
@@ -882,7 +882,27 @@ func _process(delta):
 func _back_to_main():
 	Globals._back_to_main()
 	
+func replace_small_caps(texts: String):
+	var output = ""
+	var small_caps_map = {
+		'ᴀ': 'A', 'ʙ': 'B', 'ᴄ': 'C', 'ᴅ': 'D', 'ᴇ': 'E',
+		'ꜰ': 'F', 'ɢ': 'G', 'ʜ': 'H', 'ɪ': 'I', 'ᴊ': 'J',
+		'ᴋ': 'K', 'ʟ': 'L', 'ᴍ': 'M', 'ɴ': 'N', 'ᴏ': 'O',
+		'ᴘ': 'P', 'ǫ': 'Q', 'ʀ': 'R', 'ꜱ': 'S', 'ᴛ': 'T',
+		'ᴜ': 'U', 'ᴠ': 'V', 'ᴡ': 'W', 'ʏ': 'Y', 'ᴢ': 'Z',
+		'₁': '1', '₂': '2', '₃': '3', '₄': '4', '₅': '5',
+		'₆': '6', '₇': "7", '₈': "8"
+	}
+	for char in texts:
+		if char in small_caps_map:
+			output += "[font_size=10]" + small_caps_map[char] + "[/font_size]"
+		else:
+			output += char
+	return output
+	
 func record_turn(texts: String, side: int):
+	texts = replace_small_caps(texts)
+	# replace
 	var move_label_scene = load("res://Prefabs/move_label.tscn") as PackedScene
 	var move_label = move_label_scene.instantiate()
 	move_label.text = texts
@@ -903,4 +923,5 @@ func set_advantage_bar():
 
 func update_piece_info(piece: int):
 	var s = Globals.PieceWiki[piece].piece_info
+	s = replace_small_caps(s)
 	piece_info.text = s
