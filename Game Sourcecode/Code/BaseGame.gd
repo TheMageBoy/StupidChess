@@ -464,7 +464,7 @@ func get_piece_movement(piece: Node2D, prize_index: int = -1)-> Array:
 			move = Globals.horse_movement(pieces, piece.board_position, piece.side, false, [3,1])
 		Globals.Mercenary:
 			for key in pieces.keys():
-				if pieces[key] == null and key != Vector2i(99,99):
+				if pieces[key] == null and key != Vector2i(99,99) and !Globals.occupied(pieces, key):
 					move.append([Globals.Basic, key])
 		Globals.Healer:
 			var q = Globals.bishop_movement(pieces, piece.board_position, piece.side, 99, false, 1, true) + Globals.rook_movement(pieces, piece.board_position, piece.side, 99, false, 1, true)
