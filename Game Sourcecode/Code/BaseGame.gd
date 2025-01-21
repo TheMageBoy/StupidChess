@@ -699,7 +699,7 @@ func array_to_string(input_array: Array) -> String:
 
 func roll_unit():
 	var options = [
-		0, Globals.Knight, Globals.Bishop, Globals.Rook, Globals.Queen,
+		Globals.Pawn, Globals.Knight, Globals.Bishop, Globals.Rook, Globals.Queen,
 		Globals.Grasshopper, Globals.Cannon, Globals.Nightrider, Globals.Angel,
 		Globals.Bull, Globals.Trebuchet, Globals.Archer, Globals.Ship,
 		Globals.Samurai, Globals.Clock, Globals.Ranger, Globals.Archbishop,
@@ -707,15 +707,7 @@ func roll_unit():
 		Globals.Crab, Globals.Priest, Globals.Rookie, Globals.Damsel, Globals.Bomb,
 		Globals.Paladin, Globals.Healer, Globals.Jester, Globals.Mercenary
 	]
-	#if Globals.who_plays[Globals.White] != "AI" and Globals.who_plays[Globals.Black] != "AI":
-	#	options.append()
-	var pawns = [
-		Globals.Messenger, Globals.Guard, Globals.Innkeeper, Globals.Doctor,
-		Globals.Weaver, Globals.Clerk, Globals.Blacksmith, Globals.Farmer
-	]
 	var picked = options[randi() % options.size()]
-	if picked == 0:
-		picked = pawns[randi() % pawns.size()]
 	return picked
 
 func under_attack_by(piece: Node2D):
