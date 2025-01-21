@@ -1,0 +1,214 @@
+[gd_scene load_steps=4 format=3 uid="uid://38vls534715a"]
+
+[ext_resource type="Script" path="res://Code/BaseGame.gd" id="1_n1hlf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21444"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ot2k"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Board" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n1hlf")
+
+[node name="Game" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="White Prize Bench" type="VBoxContainer" parent="Game"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 55
+alignment = 2
+
+[node name="Chessboard" type="GridContainer" parent="Game"]
+custom_minimum_size = Vector2(600, 0)
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 8
+
+[node name="Rank1" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank2" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank3" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank4" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank5" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank6" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank7" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank8" type="VBoxContainer" parent="Game/Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Black Prize Bench" type="VBoxContainer" parent="Game"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 55
+
+[node name="Turn Display" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0303254
+anchor_top = 0.0342556
+anchor_right = 0.0303254
+anchor_bottom = 0.0342556
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/normal_font_size = 25
+text = "White's Turn"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Exit Game" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Exit Game"
+
+[node name="AdvantageBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.015625
+anchor_top = 0.0941358
+anchor_right = 0.015625
+anchor_bottom = 0.0941358
+offset_right = 200.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_21444")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6ot2k")
+value = 20.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Move History" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -247.5
+offset_right = 270.0
+offset_bottom = 52.5
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Move History"]
+layout_mode = 2
+
+[node name="White" type="Label" parent="Move History/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "White"
+
+[node name="Black" type="Label" parent="Move History/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Black"
+
+[node name="Scroll Bar" type="ScrollContainer" parent="Move History"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="Move History/Scroll Bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="PieceInformation" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -273.0
+offset_top = 44.0
+offset_right = -23.0
+offset_bottom = 694.0
+grow_horizontal = 0
+
+[node name="Scroll Bar" type="ScrollContainer" parent="PieceInformation"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PieceInformation/Scroll Bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][img=50]Graphics/Pieces/Bishop.png[/img]Bishop[/center]
+
+[b]Notation:[/b] None
+[b]Prize Tier:[/b] 1
+
+The Bishop can move or capture to any reachable diagonal tile."
+
+[connection signal="pressed" from="Exit Game" to="." method="_back_to_main"]

@@ -146,14 +146,14 @@
   </div>
 
   <script>
-    const items = ["Pawn", "Knight", "Bishop", "Rook", "Queen", "Grasshopper", "Cannon", "Archer", "Soldier", "Querquisite", "Angel", "Samurai", "Ship", "Sheriff", "Mercenary", "Bull", "Trebuchet", "Clocktower", "Centurion", "Nightrider", "Archbishop", "Bastion"];
+    const items = ["Pawn", "Knight", "Bishop", "Rook", "Queen", "Grasshopper", "Cannon", "Archer", "Soldier", "Querquisite", "Angel", "Samurai", "Ship", "Ranger", "Duck", "Bull", "Trebuchet", "Clocktower", "Centurion", "Nightrider", "Archbishop", "Bastion", "Priest", "Rookie", "Crab", "Damsel", "Healer", "Jester", "Bomb", "Paladin"];
     const tierList = document.querySelector(".tier-list");
     const createItemElement = (name) => {
       const item = document.createElement("div");
       item.className = "item";
 
       const img = document.createElement("img");
-      img.src = `${name.replace(/\s+/g, '_')}.png`;
+      img.src = `Game SourceCode/Graphics/Pieces/${name.replace(/\s+/g, '_')}.png`;
       img.alt = name;
 
       const label = document.createElement("div");

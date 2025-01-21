@@ -6,9 +6,13 @@ const White: int = 1
 const Black: int = 2
 const Win_State: int = 999
 
+# Square Colors
+const square_colors = [Color(0.2, 0.2, 0.2), Color(0.8, 0.8, 0.8)]
+
 # Piece IDs
 
 const Dummy: 			int = 0
+const Pawn: 			int = 0
 
 const Messenger: 		int = 1
 const Guard: 			int = 2
@@ -39,12 +43,19 @@ const Ship: 			int = 24
 const Querquisite: 		int = 25
 const Clock:			int = 26
 const Mercenary: 		int = 27
-const Sheriff:	 		int = 28
+const Ranger:	 		int = 28
 const Windmill:			int = 29
 const Archbishop:		int = 30
 const Bastion:			int = 31
 const Soldier: 			int = 32
 const Centurion:		int = 33
+const Crab:				int = 34
+const Priest:			int = 35
+const Rookie:			int = 36
+const Horseman:			int = 37
+const Damsel:			int = 38
+const Paladin:			int = 39
+const Healer:			int = 40
 
 # Movement Types
 const Place: int = -1 # places down a piece onto the board from hand
@@ -55,40 +66,47 @@ const SpecialCapture: int = 3 # kills foe and moves but different spaces
 const Swap: int = 4
 #ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ
 var PieceWiki: Array = [
-	PieceData.new().create("Dummy", "Pawn", "⚠", 1),
-	PieceData.new().create("Messenger", "Pawn", "", 1),
-	PieceData.new().create("Guard", "Pawn", "", 1),
-	PieceData.new().create("Innkeeper", "Pawn", "", 1),
-	PieceData.new().create("Doctor", "Pawn", "", 1),
-	PieceData.new().create("Weaver", "Pawn", "", 1),
-	PieceData.new().create("Clerk", "Pawn", "", 1),
-	PieceData.new().create("Blacksmith", "Pawn", "", 1),
-	PieceData.new().create("Farmer", "Pawn", "", 1),
-	PieceData.new().create("Knight", "", "N", 3),
-	PieceData.new().create("Bishop", "", "B", 3),
-	PieceData.new().create("Rook", "", "R", 5),
-	PieceData.new().create("Queen", "", "Q", 9),
-	PieceData.new().create("King", "", "K", 0),
-	PieceData.new().create("Grasshopper", "", "G", 3),
-	PieceData.new().create("Cannon", "", "Cɴ", 2),
-	PieceData.new().create("Jester", "", "J", 2),
-	PieceData.new().create("Angel", "", "Aɢ", 4),
-	PieceData.new().create("Nightrider", "", "N₂", 6),
-	PieceData.new().create("Bull", "", "Bʟ", 5),
-	PieceData.new().create("Archer", "", "A", 2),
-	PieceData.new().create("Bomb", "", "X", 2),
-	PieceData.new().create("Trebuchet", "", "T", 3),
-	PieceData.new().create("Samurai", "", "侍", 4),
-	PieceData.new().create("Ship", "", "S", 2),
-	PieceData.new().create("Querquisite", "", "?", 4),
-	PieceData.new().create("Clocktower", "Clocktower/", "Cᴛ", 5),
-	PieceData.new().create("Mercenary", "", "M", 4),
-	PieceData.new().create("Sheriff", "", "Sʀ", 4),
-	PieceData.new().create("Windmill", "", "W", 1),
-	PieceData.new().create("Archbishop", "", "B₂", 6),
-	PieceData.new().create("Bastion", "", "R₂", 6),
-	PieceData.new().create("Soldier", "", "ꜱ", 1),
-	PieceData.new().create("Centurion", "", "C", 1),
+	PieceData.new().create("Pawn", "Pawn", "", 1,"[center][img=50]Graphics/Pieces/Pawn.png[/img]Pawn[/center]\n\n[b]Notation:[/b] None\n[b]Prize Tier:[/b] 0\n\nThe Pawn moves 1 step away from its side of the board, or 2 on its first movement. It cannot capture forward, instead it captures diagonally forward.\n\nIt may capture a pawn to the left or right of it digonally forawrd in its direction if they have just done their first long move. This is called \"en passant\".\n\nPawns promote Queens upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Messenger", "Pawn", "", 1, ""),
+	PieceData.new().create("Guard", "Pawn", "", 1, ""),
+	PieceData.new().create("Innkeeper", "Pawn", "", 1, ""),
+	PieceData.new().create("Doctor", "Pawn", "", 1, ""),
+	PieceData.new().create("Weaver", "Pawn", "", 1, ""),
+	PieceData.new().create("Clerk", "Pawn", "", 1, ""),
+	PieceData.new().create("Blacksmith", "Pawn", "", 1, ""),
+	PieceData.new().create("Farmer", "Pawn", "", 1, ""),
+	PieceData.new().create("Knight", "", "N", 3, "[center][img=50]Graphics/Pieces/Knight.png[/img]Knight[/center]\n\n[b]Notation:[/b] N\n[b]Prize Tier:[/b] 1\n\nThe Knight can move or capture to any tile 2 squares away orthogonally and 1 square perpendicular to that. The knight ignores any pieces inbetween, allowing it to jump over pieces."),
+	PieceData.new().create("Bishop", "", "B", 3, "[center][img=50]Graphics/Pieces/Bishop.png[/img]Bishop[/center]\n\n[b]Notation:[/b] B\n[b]Prize Tier:[/b] 1\n\nThe Bishop can move or capture to any reachable diagonal tile."),
+	PieceData.new().create("Rook", "", "R", 5, "[center][img=50]Graphics/Pieces/Rook.png[/img]Rook[/center]\n\n[b]Notation:[/b] R\n[b]Prize Tier:[/b] 1\n\nThe Rook can move or capture to any reachable orthogonal tile.\n\nCannot Castle."),
+	PieceData.new().create("Queen", "", "Q", 9, "[center][img=50]Graphics/Pieces/Queen.png[/img]Queen[/center]\n\n[b]Notation:[/b] Q\n[b]Prize Tier:[/b] 2\n\nThe Queen can move or capture to any reachable diagonal or orthogonal tile."),
+	PieceData.new().create("King", "", "K", 0, "[center][img=50]Graphics/Pieces/King.png[/img]King[/center]\n\n[b]Notation:[/b] K\n[b]Prize Tier:[/b] 1\n\nThe King can move or capture to any reachable adjacent tile."),
+	PieceData.new().create("Grasshopper", "", "G", 3, "[center][img=50]Graphics/Pieces/Grasshopper.png[/img]Grasshopper[/center]\n\n[b]Notation:[/b] Q\n[b]Prize Tier:[/b] 1\n\nThe Grasshopper can move like a Queen with the addition of jumping over any number of pieces but needs a piece adjacent to it on row/column/diagonal."),
+	PieceData.new().create("Cannon", "", "Cɴ", 2, "[center][img=50]Graphics/Pieces/Cannon.png[/img]Cannon[/center]\n\n[b]Notation:[/b] Cɴ\n[b]Prize Tier:[/b] 1\n\nThe Cannon can move like a King.\n\nThe Cannon cannot capture. Instead it can Shoot targets 2-3 Diagonal tiles away."),
+	PieceData.new().create("Jester", "", "J", 2, "[center][img=50]Graphics/Pieces/Jester.png[/img]Jester[/center]\n\n[b]Notation:[/b] J\n[b]Prize Tier:[/b] 1\n\nThe Jester moves like the last piece moved or placed by your opponent."),
+	PieceData.new().create("Angel", "", "A", 4, "[center][img=50]Graphics/Pieces/Angel.png[/img]Angel[/center]\n\n[b]Notation:[/b] A\n[b]Prize Tier:[/b] 0\n\nThe Angel can teleport to any empty threatened square or swap places with any allied piece. Swaps are denoted by the ⇄ symbol."),
+	PieceData.new().create("Nightrider", "", "N₂", 6, "[center][img=50]Graphics/Pieces/Nightrider.png[/img]Nightrider[/center]\n\n[b]Notation:[/b] N₂\n[b]Prize Tier:[/b] 1\n\nThe Nightrider can move or capture similarly to a Knight, however can continue to another square with the same L-shape configuration. This continues until there is a piece on its landing tile."),
+	PieceData.new().create("Bull", "", "Bʟ", 5, "[center][img=50]Graphics/Pieces/Bull.png[/img]Bull[/center]\n\n[b]Notation:[/b] Bʟ\n[b]Prize Tier:[/b] 1\n\nThe Bull can move or capture with the combined powers of the Queen and the Knight, however, it can only perform capturing moves. If there are no pieces to capture, it moves like a King."),
+	PieceData.new().create("Archer", "", "ᴀ", 2, "[center][img=50]Graphics/Pieces/Archer.png[/img]Archer[/center]\n\n[b]Notation:[/b] ᴀ\n[b]Prize Tier:[/b] 0\n\nThe Archer can move, but not capture orthogonally 1 space.\n\nIt can Shoot in diamond formation, hitting 2 squres orthogonally or 1 square diagonally away.\n\nArchers promote Bishops upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Bomb", "", "X", 2, "[center][img=50]Graphics/Pieces/Archer.png[/img]Bomb[/center]\n\n[b]Notation:[/b] X\n[b]Prize Tier:[/b] 1\n\nThe Bomb can move like a King. when capturing a piece, it captures all pieces adjacent to its original position, and destroys itself. Destroying allied pieces will not yield prize pieces.\n\nIf it is captured, it does NOT explode."),
+	PieceData.new().create("Trebuchet", "", "T", 3, "[center][img=50]Graphics/Pieces/Trebuchet.png[/img]Trebuchet[/center]\n\n[b]Notation:[/b] T\n[b]Prize Tier:[/b] 1\n\nThe Trebuchet can move, but not capture orthogonally 1 space.\n\nThe Trebuchet grants movement to all adjacent pieces in the direction opposite to their position relative to it, allowing them to move in that direction until they encounter an obstacle. For example, a Pawn to the southwest of the Trebuchet will gain movement along the northeast diagonal."),
+	PieceData.new().create("Samurai", "", "侍", 4, "[center][img=50]Graphics/Pieces/Samurai.png[/img]Samurai[/center]\n\n[b]Notation:[/b] 侍\n[b]Prize Tier:[/b] 1\n\nThe Samurai can move like a Queen with the addition of jumping over any number of pieces but can only capture adjacent pieces."),
+	PieceData.new().create("Ship", "", "S", 2, "[center][img=50]Graphics/Pieces/Ship.png[/img]Ship[/center]\n\n[b]Notation:[/b] S\n[b]Prize Tier:[/b] 1\n\nThe Ship can move diagonally 1 tile, and then any number of spaces up or down depending on if the diagonal was upward or downward."),
+	PieceData.new().create("Querquisite", "", "?", 4, "[center][img=50]Graphics/Pieces/Querquisite.png[/img]Querquisite[/center]\n\n[b]Notation:[/b] ?\n[b]Prize Tier:[/b] 1\n\nThe Querquisite moves as the pieces of the file it is currently standing on:\n(a/h) Rook\n(b/g) Knight\n(c/f) Bishop\n(d) Queen\n(e) King"),
+	PieceData.new().create("Clocktower", "Clocktower/", "Cᴛ", 5, "[center][img=50]Graphics/Pieces/Clocktower/20.png[/img]Clocktower[/center]\n\n[b]Notation:[/b] Cᴛ\n[b]Prize Tier:[/b] 1\n\nAt the start of the game, each player's Clock's minute and hour hands are poiting pirectly away from their side of the board. On the player's respective turns, the minute hand  turn 45 degrees clockwise. If it returns to its position of pointing away from its side, the hour hand will also rotate 45 degrees\n\nThe Clocktower can move and catpture in the direction the minute hard is pointing, for 3 squares and is able to jump over any number of pieces. It may also move and capture any number of square towards where the hour hand is pointing."),
+	PieceData.new().create("Duck", "", "D", 4, "[center][img=50]Graphics/Pieces/Duck.png[/img]Duck[/center]\n\n[b]Notation:[/b] D\n[b]Prize Tier:[/b] 1\n\nThe Duck can move to any unoccupied tile on the board, and may be moved by either player."),
+	PieceData.new().create("Ranger", "", "Aʀ", 4, "[center][img=50]Graphics/Pieces/Ranger.png[/img]Ranger[/center]\n\n[b]Notation:[/b] Aʀ\n[b]Prize Tier:[/b] 1\n\nThe Ranger moves like a Knight. It can Shoot in diamond formation, hitting 2 squres orthogonally or 1 square diagonally away."),
+	PieceData.new().create("Windmill", "", "W", 1, ""),
+	PieceData.new().create("Archbishop", "", "B₂", 9, "[center][img=50]Graphics/Pieces/Archbishop.png[/img]Archbishop[/center]\n\n[b]Notation:[/b] B₂\n[b]Prize Tier:[/b] 2\n\nThe Archbishop can move like a Bishop, but in addition, may turn perpedicular to its trajectory after its first step."),
+	PieceData.new().create("Bastion", "", "R₂", 9, "[center][img=50]Graphics/Pieces/Bastion.png[/img]Bastion[/center]\n\n[b]Notation:[/b] R₂\n[b]Prize Tier:[/b] 2\n\nThe Bastion can move like a Rook, but in addition, may turn perpedicular to its trajectory after its first step vertically."),
+	PieceData.new().create("Soldier", "", "ꜱ", 1, "[center][img=50]Graphics/Pieces/Soldier.png[/img]Soldier[/center]\n\n[b]Notation:[/b] ꜱ\n[b]Prize Tier:[/b] 0\n\nThe Soldier is similar to a pawn, it moves forward away from its side by 1, and 2 on its first movements. Unlike the pawn, it captures forward.\n\nSoldiers have their own en passant, where they capture forward a passing Pawn or Soldier. If there is a regular piece that can be captured there instead, en passant is ignored. Soldiers may be captured by en passant.\n\nSoldiers promote Centurions upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Centurion", "", "C", 4, "[center][img=50]Graphics/Pieces/Centurion.png[/img]Centurion[/center]\n\n[b]Notation:[/b] C\n[b]Prize Tier:[/b] 1\n\nThe Centurion can move like a King.\n\nIt has the additional passive ability to make pawns and soldiers be able to move 1 additional space. This is stackable with multiple centurions. A Pawn moving 2 spaces under the influence of 1 Centurion cannot be captured by en passant, but if it is moving 3 spaces (on its first move) it can be."),
+	PieceData.new().create("Crab", "", "ᴄ", 1, "[center][img=50]Graphics/Pieces/Crab.png[/img]Crab[/center]\n\n[b]Notation:[/b] ᴄ\n[b]Prize Tier:[/b] 0\n\nThe Crab moves like a Knight, but only the 2 closer tiles in the direction away from its side, and only the 2 apart tiles in the direction towards its side."),
+	PieceData.new().create("Priest", "", "ʙ", 2, "[center][img=50]Graphics/Pieces/Priest.png[/img]Priest[/center]\n\n[b]Notation:[/b] ʙ\n[b]Prize Tier:[/b] 0\n\nThe Priest moves like a Bishop but only 2 tiles.\n\nPriests promote Bishops upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Rookie", "", "ʀ", 3, "[center][img=50]Graphics/Pieces/Rookie.png[/img]Rookie[/center]\n\n[b]Notation:[/b] ʀ\n[b]Prize Tier:[/b] 0\n\nThe Rookie moves like a Rook but only 2 tiles.\n\nRookies promote Rooks upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Horseman", "", "ɴ", 3, ""),
+	PieceData.new().create("Damsel", "", "ǫ", 2, "[center][img=50]Graphics/Pieces/Damsel.png[/img]Damsel[/center]\n\n[b]Notation:[/b] ǫ\n[b]Prize Tier:[/b] 1\n\nThe Damsel moves like a Queen, but only to tiles where it would be in danger.\n\nDamsels promote Queens upon reaching the furthest tile on the other side of the board."),
+	PieceData.new().create("Paladin", "", "P", 3, "[center][img=50]Graphics/Pieces/Paladin.png[/img]Paladin[/center]\n\n[b]Notation:[/b] P\n[b]Prize Tier:[/b] 1\n\nThe Knight can move or capture to any tile 2 squares away diagonally and 1 square perpendicular to that.\n\nThis turned out to be exactly like a 3/1 Knight."),
+	PieceData.new().create("Healer", "", "H", 7, "[center][img=50]Graphics/Pieces/Healer.png[/img]Healer[/center]\n\n[b]Notation:[/b] ǫ\n[b]Prize Tier:[/b] 1\n\nThe Healer moves like the Queen but cannot capture, except to tiles where an ally was captured last turn.\n\nWhen moving or capturing to a tile where an ally was captured last turn, re-add that piece to your hand."),
 ]
 # movement
 
@@ -400,15 +418,15 @@ func directional_movement(board: Dictionary, piece_pos: Vector2i, side: int, mov
 
 var base_pieces: Array = [
 	
-	[Vector2i(3,4), Globals.Soldier, Globals.White],
-	[Vector2i(0,6), Globals.Messenger, Globals.White],
-	[Vector2i(1,6), Globals.Guard, Globals.White],
-	[Vector2i(2,6), Globals.Innkeeper, Globals.White],
-	[Vector2i(3,6), Globals.Doctor, Globals.White],
-	[Vector2i(4,6), Globals.Weaver, Globals.White],
-	[Vector2i(5,6), Globals.Clerk, Globals.White],
-	[Vector2i(6,6), Globals.Blacksmith, Globals.White],
-	[Vector2i(7,6), Globals.Farmer, Globals.White],
+	#[Vector2i(1,5), Globals.Jester, Globals.White],
+	[Vector2i(0,6), Globals.Pawn, Globals.White],
+	[Vector2i(1,6), Globals.Pawn, Globals.White],
+	[Vector2i(2,6), Globals.Pawn, Globals.White],
+	[Vector2i(3,6), Globals.Pawn, Globals.White],
+	[Vector2i(4,6), Globals.Pawn, Globals.White],
+	[Vector2i(5,6), Globals.Pawn, Globals.White],
+	[Vector2i(6,6), Globals.Pawn, Globals.White],
+	[Vector2i(7,6), Globals.Pawn, Globals.White],
 	
 	[Vector2i(0,7), Globals.Rook, Globals.White],
 	[Vector2i(1,7), Globals.Knight, Globals.White],
@@ -419,14 +437,14 @@ var base_pieces: Array = [
 	[Vector2i(6,7), Globals.Knight, Globals.White],
 	[Vector2i(7,7), Globals.Rook, Globals.White],
 	
-	[Vector2i(0,1), Globals.Messenger, Globals.Black],
-	[Vector2i(1,1), Globals.Guard, Globals.Black],
-	[Vector2i(2,1), Globals.Innkeeper, Globals.Black],
-	[Vector2i(3,1), Globals.Doctor, Globals.Black],
-	[Vector2i(4,1), Globals.Weaver, Globals.Black],
-	[Vector2i(5,1), Globals.Clerk, Globals.Black],
-	[Vector2i(6,1), Globals.Blacksmith, Globals.Black],
-	[Vector2i(7,1), Globals.Farmer, Globals.Black],
+	[Vector2i(0,1), Globals.Pawn, Globals.Black],
+	[Vector2i(1,1), Globals.Pawn, Globals.Black],
+	[Vector2i(2,1), Globals.Pawn, Globals.Black],
+	[Vector2i(3,1), Globals.Pawn, Globals.Black],
+	[Vector2i(4,1), Globals.Pawn, Globals.Black],
+	[Vector2i(5,1), Globals.Pawn, Globals.Black],
+	[Vector2i(6,1), Globals.Pawn, Globals.Black],
+	[Vector2i(7,1), Globals.Pawn, Globals.Black],
 	
 	[Vector2i(0,0), Globals.Rook, Globals.Black],
 	[Vector2i(1,0), Globals.Knight, Globals.Black],
@@ -451,12 +469,12 @@ func _on_vs_ai_pressed() -> void:
 	else:
 		who_plays[White] = "AI"
 		who_plays[Black] = "Player"
-	get_tree().change_scene_to_file("res://Scenes/Game.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Game2.tscn")
 
 func _on_pvp_pressed() -> void:
 	who_plays[White] = "Player"
 	who_plays[Black] = "Player"
-	get_tree().change_scene_to_file("res://Scenes/Game.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Game2.tscn")
 
 func _back_to_main() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Main Menu.tscn")

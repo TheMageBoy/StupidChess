@@ -69,9 +69,11 @@ func advance_turn():
 		waiting_for_player = true
 	else:
 		ai_timer = 40
-	if win == Globals.White:
+	if count_piece(Globals.King, Globals.Black) == 0:
+		win = Globals.White
 		turn_display.text = "White Wins"
-	elif win == Globals.Black:
+	elif count_piece(Globals.King, Globals.White) == 0:
+		win = Globals.Black
 		turn_display.text = "Black Wins"
 	elif side_turn == Globals.White:
 		turn_display.text = "White's Turn"
@@ -262,7 +264,7 @@ func get_piece_movement(piece: Node2D) -> Array:
 			move = Globals.bishop_movement(pieces, piece.board_position, piece.side, 99, false, 1, true)
 		Globals.Rook:
 			move = Globals.rook_movement(pieces, piece.board_position, piece.side, 99, false, 1, true)
-		Globals.Queen, Globals.Mercenary:
+		Globals.Queen:
 			move = Globals.bishop_movement(pieces, piece.board_position, piece.side, 99, false, 1, true) + Globals.rook_movement(pieces, piece.board_position, piece.side, 99, false, 1, true)
 		Globals.King, Globals.Centurion:
 			move = Globals.bishop_movement(pieces, piece.board_position, piece.side, 1, false, 1,true) + Globals.rook_movement(pieces, piece.board_position, piece.side, 1, false , 1, true)
@@ -280,7 +282,7 @@ func get_piece_movement(piece: Node2D) -> Array:
 		Globals.Nightrider:
 			move = Globals.horse_movement(pieces, piece.board_position, piece.side, true)
 		Globals.Grasshopper:
-			move = Globals.real_grasshopper_movement(pieces, piece.board_position, piece.side)
+			move = Globals.grasshopper_movement(pieces, piece.board_position, piece.side)
 		Globals.Cannon:
 			var cannon := Globals.bishop_movement(pieces, piece.board_position, piece.side, 3, true, 2, true)
 			var attacks := []
@@ -290,7 +292,7 @@ func get_piece_movement(piece: Node2D) -> Array:
 					temp = moves
 					temp[0] = Globals.Projectile
 					attacks.append(temp)
-			move = attacks + Globals.rook_movement(pieces, piece.board_position, piece.side, 1, false, 1, false)
+			move = attacks + Globals.rook_movement(pieces, piece.board_position, piece.side, 1, false, 1, false) + Globals.bishop_movement(pieces, piece.board_position, piece.side, 1, false, 1, false)
 		Globals.Archer:
 			var cannon := Globals.rook_movement(pieces, piece.board_position, piece.side, 2, true, 2, true) + Globals.bishop_movement(pieces, piece.board_position, piece.side, 1, true, 1, true)
 			var attacks := []
@@ -361,7 +363,7 @@ func get_piece_movement(piece: Node2D) -> Array:
 			var values = [-1, 1]
 			for a in values:
 				for b in values:
-					if Globals.exists(pieces, piece.board_position + Vector2i(a, b)):
+					if Globals.exists(pieces, piece.board_position + Vector2i(a, b)) and !Globals.occupied(pieces, piece.board_position + Vector2i(a, b)):
 						move += Globals.bishop_movement(pieces, piece.board_position + Vector2i(a, b), piece.side, 99, false, 1, true)
 		Globals.Bastion:
 			move = Globals.rook_movement(pieces, piece.board_position, piece.side, 99, false, 1, true)
@@ -386,6 +388,42 @@ func get_piece_movement(piece: Node2D) -> Array:
 					var pos2 = pos + Vector2i(a,-dir.y)
 					if pieces.has(pos2) and Globals.occupied_by_foe(pieces, pos2, side_turn) and pieces[pos2].en_passant == true:
 						move[i] = [Globals.SpecialCapture, pos, pos2]
+		Globals.Crab:
+			var values = [Vector2i(-1, -2),Vector2i(1, -2),Vector2i(-2, 1),Vector2i(2, 1)]
+			if piece.side == Globals.Black:
+				values = [Vector2i(-1, 2),Vector2i(1, 2),Vector2i(-2, -1),Vector2i(2, -1)]
+			for val in values:
+				var pos = val + piece.board_position
+				if pieces.has(pos):
+					if pieces[pos] == null:
+						move.append([Globals.Basic, pos])
+					elif Globals.occupied_by_foe(pieces, pos, piece.side):
+						move.append([Globals.Capture, pos])
+		Globals.Priest:
+			move = Globals.bishop_movement(pieces, piece.board_position, piece.side, 2, false, 1, true)
+		Globals.Rookie:
+			move = Globals.rook_movement(pieces, piece.board_position, piece.side, 2, false, 1, true)
+		Globals.Bomb:
+			move = Globals.bishop_movement(pieces, piece.board_position, piece.side, 1, false, 1,false) + Globals.rook_movement(pieces, piece.board_position, piece.side, 1, false , 1, false)
+			for d in Globals.directions:
+				var pos = d + piece.board_position
+				if pieces.has(pos) and Globals.occupied(pieces, pos):
+					var m = [Globals.SpecialCapture, pos, piece.board_position]
+					for e in Globals.directions:
+						if pieces.has(piece.board_position + e) and Globals.occupied(pieces, piece.board_position + e):
+							m.append(piece.board_position + e)
+					move.append(m)
+		Globals.Damsel:
+			var queen = Globals.bishop_movement(pieces, piece.board_position, piece.side, 99, false, 1, true) + Globals.rook_movement(pieces, piece.board_position, piece.side, 99, false, 1, true)
+			for q in queen:
+				if alt_under_attack(piece, q[1]).size() > 0:
+					move.append(q)
+		Globals.Paladin:
+			move = Globals.horse_movement(pieces, piece.board_position, piece.side, false, [3,1])
+		Globals.Mercenary:
+			for key in pieces.keys():
+				if pieces[key] == null and key != Vector2i(99,99):
+					move.append([Globals.Basic, key])
 		_:
 			print(piece_id)
 	move = move + Globals.trebuchet_movement_extension(pieces, piece.board_position, piece.side)
@@ -521,9 +559,10 @@ func perform_move(piece, config):
 		
 	notation += Vector2ToTileName(pos) + prize
 	if move_type == Globals.SpecialCapture: # capturing
-		notation += "x"
-		prize = on_capture(pieces[config[2]])
-		notation += Vector2ToTileName(config[2]) + prize
+		for cap in range(2,config.size()):
+			notation += "x"
+			prize = on_capture(pieces[config[cap]])
+			notation += Vector2ToTileName(config[cap]) + prize
 	var temp_piece = null
 	if move_type == Globals.Swap:
 		notation += "⇄"
@@ -547,7 +586,7 @@ func perform_move(piece, config):
 	if piece.has_moved == false and (piece.piece_type <= Globals.Knight or can_be_en_passanted.has(piece.piece_type)) and abs(old_pos.y - pos.y) == 2 + centurion_count:
 		piece.en_passant = true
 		
-	if piece.piece_type < Globals.Knight and ((side_turn == Globals.White and piece.board_position.y == 0) or (side_turn == Globals.Black and piece.board_position.y == 7)):
+	if (piece.piece_type < Globals.Knight or piece.piece_type == Globals.Damsel) and ((side_turn == Globals.White and piece.board_position.y == 0) or (side_turn == Globals.Black and piece.board_position.y == 7)):
 		piece.piece_type = Globals.Queen
 		piece.get_child(0).texture = load("res://Graphics/Pieces/"+Globals.PieceWiki[Globals.Queen].piece_sprite+".png")
 		notation += "(Q)"
@@ -555,6 +594,14 @@ func perform_move(piece, config):
 		piece.piece_type = Globals.Centurion
 		piece.get_child(0).texture = load("res://Graphics/Pieces/"+Globals.PieceWiki[Globals.Centurion].piece_sprite+".png")
 		notation += "(C)"
+	elif piece.piece_type == Globals.Priest and ((side_turn == Globals.White and piece.board_position.y == 0) or (side_turn == Globals.Black and piece.board_position.y == 7)):
+		piece.piece_type = Globals.Bishop
+		piece.get_child(0).texture = load("res://Graphics/Pieces/"+Globals.PieceWiki[Globals.Bishop].piece_sprite+".png")
+		notation += "(B)"
+	elif piece.piece_type == Globals.Rookie and ((side_turn == Globals.White and piece.board_position.y == 0) or (side_turn == Globals.Black and piece.board_position.y == 7)):
+		piece.piece_type = Globals.Rook
+		piece.get_child(0).texture = load("res://Graphics/Pieces/"+Globals.PieceWiki[Globals.Rook].piece_sprite+".png")
+		notation += "(R)"
 	
 	piece.has_moved = true
 	
@@ -566,14 +613,14 @@ var game_done := false
 func on_capture(piece: Node2D):
 	var prizes = 0
 	var input_list = []
-	var no_prizes := [Globals.Archer, Globals.Angel, Globals.King, Globals.Soldier]
+	var no_prizes := [Globals.Archer, Globals.Angel, Globals.King, Globals.Soldier, Globals.Crab, Globals.Rookie, Globals.Priest]
 	var double_prizes := [Globals.Queen, Globals.Archbishop, Globals.Bastion]
-	if piece.piece_type == Globals.King:
-		win = side_turn
 	if double_prizes.has(piece.piece_type):
 		prizes = 2
 	elif piece.piece_type >= Globals.Knight and !no_prizes.has(piece.piece_type):
 		prizes = 1
+	if piece.side == side_turn:
+		prizes = 0
 	var end_of_prizes := false
 	while prizes > 0:
 		var roll = roll_unit()
@@ -611,11 +658,13 @@ func array_to_string(input_array: Array) -> String:
 
 func roll_unit():
 	var options = [
-		0, 0, Globals.Knight, Globals.Bishop, Globals.Rook, Globals.Queen,
+		0, Globals.Knight, Globals.Bishop, Globals.Rook, Globals.Queen,
 		Globals.Grasshopper, Globals.Cannon, Globals.Nightrider, Globals.Angel,
 		Globals.Bull, Globals.Trebuchet, Globals.Archer, Globals.Ship,
 		Globals.Samurai, Globals.Clock, Globals.Sheriff, Globals.Archbishop,
-		Globals.Bastion, Globals.Soldier, Globals.Querquisite, Globals.Centurion
+		Globals.Bastion, Globals.Soldier, Globals.Querquisite, Globals.Centurion,
+		Globals.Crab, Globals.Priest, Globals.Rookie, Globals.Damsel, Globals.Bomb,
+		Globals.Paladin
 	]
 	if Globals.who_plays[Globals.White] != "AI" and Globals.who_plays[Globals.Black] != "AI":
 		options.append(Globals.Mercenary)
@@ -644,8 +693,10 @@ func under_attack_by(piece: Node2D):
 			for move in moves:
 				if (move[0] == Globals.Capture || move[0] == Globals.Projectile) && move[1] == piece.board_position:
 					return_array.append(piece)
-				elif move[0] == Globals.SpecialCapture && move[2] == piece.board_position:
-					return_array.append(piece)
+				elif move[0] == Globals.SpecialCapture:
+					for a in range(2,move.size()):
+						if move[a] == piece.board_position:
+							return_array.append(piece)
 	return return_array
 	
 func alt_under_attack(orig_piece: Node2D, pos: Vector2i):

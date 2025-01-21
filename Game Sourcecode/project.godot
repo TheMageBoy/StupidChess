@@ -28,6 +28,8 @@ shapes/autoload_on_startup=false
 
 [display]
 
+window/size/viewport_width=1352
+window/size/viewport_height=759
 window/size/resizable=false
 
 [file_customization]
@@ -36,7 +38,8 @@ folder_colors={
 "res://Code/": "blue",
 "res://Graphics/": "red",
 "res://Prefabs/": "purple",
-"res://Scenes/": "green"
+"res://Scenes/": "green",
+"res://Styles/": "orange"
 }
 
 [rendering]

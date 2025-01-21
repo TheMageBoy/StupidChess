@@ -15,3 +15,12 @@ func initialize(the_type: int, pos: Vector2i, _side: int):
 	piece_type = the_type
 	board_position = pos
 	side = _side
+
+func update_piece(side_turn, new_sprite, benched = false):
+	if side == side_turn:
+		en_passant = false
+	var sprite = get_child(0)
+	sprite.texture = new_sprite
+	
+	if piece_type == Globals.Mercenary and !benched:
+		side = side_turn

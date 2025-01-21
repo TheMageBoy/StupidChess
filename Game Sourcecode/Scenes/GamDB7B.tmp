@@ -1,0 +1,136 @@
+[gd_scene load_steps=2 format=3 uid="uid://38vls534715a"]
+
+[ext_resource type="Script" path="res://Code/BaseGame.gd" id="1_n1hlf"]
+
+[node name="Board" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n1hlf")
+
+[node name="Chessboard" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 273.0
+offset_top = 24.0
+offset_right = 873.0
+offset_bottom = 624.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 8
+
+[node name="Rank1" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank2" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank3" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank4" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank5" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank6" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank7" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Rank8" type="VBoxContainer" parent="Chessboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Move History" type="ScrollContainer" parent="."]
+offset_left = 926.0
+offset_top = 24.0
+offset_right = 1126.0
+offset_bottom = 224.0
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Split" type="HSplitContainer" parent="Move History"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WhiteList" type="VBoxContainer" parent="Move History/Split"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="White" type="RichTextLabel" parent="Move History/Split/WhiteList"]
+layout_mode = 2
+text = "White"
+fit_content = true
+
+[node name="BlackList" type="VBoxContainer" parent="Move History/Split"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Black" type="RichTextLabel" parent="Move History/Split/BlackList"]
+layout_mode = 2
+text = "Black"
+fit_content = true
+
+[node name="Turn Display" type="RichTextLabel" parent="."]
+offset_left = 55.0
+offset_top = 24.0
+offset_right = 255.0
+offset_bottom = 74.0
+theme_override_font_sizes/normal_font_size = 25
+text = "White's Turn"
+fit_content = true
+
+[node name="Exit Game" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1024.0
+offset_top = 615.0
+offset_right = 1151.0
+offset_bottom = 646.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Exit Game"
+
+[connection signal="pressed" from="Exit Game" to="." method="_back_to_main"]

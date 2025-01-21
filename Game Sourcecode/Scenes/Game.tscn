@@ -38,13 +38,6 @@ layout_mode = 2
 text = "Black"
 fit_content = true
 
-[node name="Exit Game" type="Button" parent="."]
-offset_left = 1025.0
-offset_top = 617.0
-offset_right = 1152.0
-offset_bottom = 648.0
-text = "Exit Game"
-
 [node name="Turn Display" type="RichTextLabel" parent="."]
 offset_left = 55.0
 offset_top = 24.0
@@ -53,5 +46,19 @@ offset_bottom = 74.0
 theme_override_font_sizes/normal_font_size = 25
 text = "White's Turn"
 fit_content = true
+
+[node name="Exit Game" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1024.0
+offset_top = 615.0
+offset_right = 1151.0
+offset_bottom = 646.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Exit Game"
 
 [connection signal="pressed" from="Exit Game" to="." method="_back_to_main"]

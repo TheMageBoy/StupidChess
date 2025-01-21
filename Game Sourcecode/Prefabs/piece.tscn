@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://djmblkdwmofat"]
+
+[ext_resource type="Script" path="res://Code/Piece.gd" id="1_6xql0"]
+[ext_resource type="Material" uid="uid://dflr0b22vhksj" path="res://Graphics/PieceShaderMaterial.tres" id="1_ihgji"]
+[ext_resource type="Texture2D" uid="uid://cm4pvxdvnak2s" path="res://Graphics/Pieces/Pawn.png" id="2_6i0lt"]
+
+[node name="Piece" type="Node2D"]
+script = ExtResource("1_6xql0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("1_ihgji")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_6i0lt")
+centered = false
