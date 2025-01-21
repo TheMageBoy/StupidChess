@@ -33,6 +33,7 @@ var side_turn := Globals.White
 var forced_prize = -1
 
 func _ready() -> void:
+	update_piece_info(Globals.Pawn)
 	for row in range(8):
 		for column in range(8):
 			pieces[Vector2i(column, row)] = null
